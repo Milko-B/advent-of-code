@@ -1,0 +1,1 @@
+All inputs should be stored here

@@ -21,7 +21,6 @@ cabal.project.local
 cabal.project.local~
 .HTF/
 .ghc.environment.*
-/2024/Input
 2024/.Rhistory
 2024/.Rprofile
 /2024/.Rproj.user
