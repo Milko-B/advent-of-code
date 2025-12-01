@@ -24,3 +24,5 @@ cabal.project.local~
 2024/.Rhistory
 2024/.Rprofile
 /2024/.Rproj.user
+.vscode/settings.json
+2025/Input/Day1.txt
