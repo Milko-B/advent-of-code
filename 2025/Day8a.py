@@ -8,25 +8,42 @@ def distance_euclid(x : tuple[int], y : tuple[int]) -> float:
     return sqrt(sum([(x[i] - y[i])**2 for i in range(len(x))]))
 
 def add_wire(boxes : set[int], connections : list[set[int]]) -> tuple[list[set[int]], bool]:    
-    connections_changed = True
+    
+    overlap = [connection for connection in connections if len(boxes & connection) != 0]
+        
+    if len(overlap) == 0:
+        # If no previous connections, add the two boxes as a new connection
+        
+        connections.append( boxes )
+        return connections
 
-    connected = [connection for connection in connections if len(boxes & connection) != 0]
+    if len(overlap) == 2:
+        # If there are two existing loops, we need to merge them 
+        
+        connections.remove(overlap[0])
+        connections.remove(overlap[1])
+        connections.append(overlap[0] | overlap[1] | boxes)
 
-    for connection in connections:
+        return connections
+
+    if len(overlap) == 1:
+        connection = overlap[0]
+            
         if len(boxes & connection) == 1:
             connections.remove(connection)
             connections.append(connection | boxes)
-            
-            return connections, connections_changed
-        
+
+            return connections
+
         if len(boxes & connection) == 2:
-            return connections, not connections_changed
 
-    # If no previous connections, add the two boxes as a new connection
-    connections.append( boxes )
-    return connections, connections_changed
+            return connections
 
-test = True
+    print("There should never be 3 different connections!")
+    raise NotImplementedError
+
+
+test = False
 
 if test:
     filename =  "2025/Input/Day8Test.txt"
@@ -48,16 +65,12 @@ distances.sort()
 
 connections = []
 
-for i in range(10):
-    print(f"Adding cable {i + 1}")
+for i in range(1000):
     new_link   = False
-    while new_link is False:
-        next_pair = distances.pop(0)
-        print(f"{next_pair[1]}")
-        connections, new_link = add_wire(next_pair[1], connections)
-        if new_link:
-            print(f"{connections}")
-    continue
+    next_pair = distances.pop(0)
+    connections = add_wire(next_pair[1], connections)
+    if new_link:
+        print(f"{connections}")
 
 lengths = [len(connection) for connection in connections]
 lengths.sort()
