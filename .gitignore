@@ -25,4 +25,4 @@ cabal.project.local~
 2024/.Rprofile
 /2024/.Rproj.user
 .vscode/settings.json
-20**/Input/Day*
+20**/Input/*
